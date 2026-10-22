@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+
+body{
+    font-family: 'italic', sans-serif;
+    background-color: palevioletred;
+    padding: 20px;
+}
+
+h1{
+    font-size: 3em;
+}
+
+
+form{
+    margin-bottom: 20px;
+}
+
+input{
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid royalblue;
+    border-radius: 7px;
+    font-family: 'italic';
+    
+}
+
+.container{
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: #e8e8e8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
