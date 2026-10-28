@@ -26,10 +26,91 @@ form.addEventListener('submit', async(e) => {
 
         addTaskToUl(task);
 
-    } chatch (err) {
+    } catch (err) {
         alert('erro ao salvar tarefa: ' + err.message);
     }
   
     
 });
 
+
+function addTaskToUl(task) {
+    const li = document.createElement('li');
+    li.className = task.completed ? "completed" : "";
+
+    const description = task.description ? task.description.trim() : "";
+
+    const text = description ? `${task.title} - ${task.description}` : task.title;
+
+    li.innerHTML = `
+    <span>${text}</span>
+    <div>
+        <button onclick='toggleComplete(${task.id}, ${task.completed})'>✔️</button>
+        <button onlclick='deleteTask(${task.id})'>🗑️</button>
+    </div>
+    `;
+    taskList.appendChild(li);
+};
+
+async function loadTasks() {
+    try {
+
+        const res = await fetch(apiUrl);
+
+
+        if (!res.ok) {throw new Error("Erro ao carrehar tarefas");
+
+        const tasks = await res.json();
+        
+        taskList.innerHTML = "";
+        tasks.forEach(addTaskToUl);
+
+    } 
+
+    } catch (err) {
+
+        alert("Erro ao carrehar tarefas" + err.message);
+    }
+};
+
+async function toggleComplete (id, completed) {
+    try {
+        const res = await fetch(`${apiUrl}/${id}`);
+        const task = await res.json();
+
+        await fetch(`${apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: {'content-Type' : 'application/json'},
+            body: JSON.stringify({
+                title: task.title,
+                description: task.description,
+                completed: !completed
+            }),
+        });
+        loadTasks();
+
+
+        
+
+
+
+
+
+    } catch (err) {
+
+        alert('Erro ao atualizar tarefa' + err.message);
+    }
+};
+
+async function deleteTask(id) {
+    try {
+        await fetch(`${apiUrl}/${id}`, {
+            method: 'DELETE'
+        });
+
+        loadTasks();
+
+    }catch (err) {
+        alert('Erro ao excluir a tarefa: ' + err.message);
+    }
+}
