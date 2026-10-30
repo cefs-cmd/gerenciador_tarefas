@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/task';
+const apiUrl = 'http://localhost:3000/tasks';
 
 const form = document.getElementById('task-form');
 const takslist = document.getElementById('task-list');
@@ -52,26 +52,25 @@ function addTaskToUl(task) {
     taskList.appendChild(li);
 };
 
+
 async function loadTasks() {
     try {
-
         const res = await fetch(apiUrl);
 
-
-        if (!res.ok) {throw new Error("Erro ao carrehar tarefas");
+        if (!res.ok) {
+            throw new Error("Erro ao carregar tarefas");
+        }
 
         const tasks = await res.json();
-        
+
         taskList.innerHTML = "";
         tasks.forEach(addTaskToUl);
 
-    } 
-
     } catch (err) {
-
-        alert("Erro ao carrehar tarefas" + err.message);
+        alert("Erro ao carregar tarefas: " + err.message);
     }
-};
+}
+
 
 async function toggleComplete (id, completed) {
     try {
